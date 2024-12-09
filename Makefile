@@ -2,32 +2,32 @@ include config.mk
 
 .PHONY: all install uninstall filter clean test dist
 
-all: lchat
+all: commode
 clean:
-	rm -f lchat *.o *.core sl_test filter/indent
+	rm -f commode *.o *.core sl_test filter/indent
 
-install: lchat
-	cp lchat $(DESTDIR)$(BINDIR)
-	cp lchat.1 $(DESTDIR)$(MAN1DIR)
+install: commode
+	cp commode $(DESTDIR)$(BINDIR)
+#	cp commode.1 $(DESTDIR)$(MAN1DIR)
 
 uninstall:
-	rm -f $(DESTDIR)$(BINDIR)/lchat $(DESTDIR)$(MAN1DIR)/lchat.1
+	rm -f $(DESTDIR)$(BINDIR)/commode $(DESTDIR)$(MAN1DIR)/commode.1
 
 test: sl_test
 	./sl_test
 
 dist:
-	mkdir -p lchat-$(VERSION)
-	cp -r $$(git ls-tree --name-only HEAD) lchat-$(VERSION)
-	tar -czf lchat-$(VERSION).tar.gz lchat-$(VERSION)
-	rm -fr lchat-$(VERSION)
+	mkdir -p commode-$(VERSION)
+	cp -r $$(git ls-tree --name-only HEAD) commode-$(VERSION)
+	tar -czf commode-$(VERSION).tar.gz commode-$(VERSION)
+	rm -fr commode-$(VERSION)
 
-lchat: lchat.o slackline.o util.o slackline_emacs.o
-	$(CC) -o $@ lchat.o slackline.o slackline_emacs.o util.o $(LIBS)
+commode: commode.o slackline.o util.o slackline_emacs.o
+	$(CC) -o $@ commode.o slackline.o slackline_emacs.o util.o $(LIBS)
 
-lchat.o: lchat.c
+commode.o: commode.c
 	$(CC) -c $(CFLAGS) -D_BSD_SOURCE -D_XOPEN_SOURCE -D_GNU_SOURCE \
-	    -o $@ lchat.c
+	    -o $@ commode.c
 
 filter: filter/indent
 filter/indent: filter/indent.c util.o util.h
